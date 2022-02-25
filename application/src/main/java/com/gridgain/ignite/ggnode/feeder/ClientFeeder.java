@@ -21,9 +21,9 @@ public class ClientFeeder {
     private static final Log log = LogFactory.getLog(ClientFeeder.class);
     private static final ArrayList<String> namedClientList;
 
-    public static void loadSchwabDemoClients(int numClients) {
+    public static void loadSDemoClients(int numClients) {
 
-        log.info(String.format("*** Schwab Demo Client Feeder: Begin client feed  got %d clients.", numClients));
+        log.info(String.format("*** SDemo Client Feeder: Begin client feed  got %d clients.", numClients));
 
         Random r = new Random();    // For generating random client account status (0..3)
 
@@ -35,21 +35,21 @@ public class ClientFeeder {
                 clients.put(client.getId(), client);
 
                 if (i % 100000 == 0) {
-                    log.info(String.format("*** Schwab Demo Client Feeder: Generated %d Client records.", i));
+                    log.info(String.format("*** SDemo Client Feeder: Generated %d Client records.", i));
                 }
             }
 
-            log.info(String.format("*** Schwab Demo Client Feeder: Saving %d Client records to the Client cache.", numClients));
+            log.info(String.format("*** SDemo Client Feeder: Saving %d Client records to the Client cache.", numClients));
             clientDao.saveAll(clients);
 
             int numCachedClients = clientDao.getClientCount();
-            log.info(String.format("*** Schwab Demo Client Feeder: Client cache record count is: %d.", numCachedClients));
+            log.info(String.format("*** SDemo Client Feeder: Client cache record count is: %d.", numCachedClients));
 
             if (numCachedClients < numClients) {
-                log.error(String.format("*** Schwab Demo Client Feeder: Incomplete Load - only %d of %d clients were cached.", numCachedClients, numClients));
+                log.error(String.format("*** SDemo Client Feeder: Incomplete Load - only %d of %d clients were cached.", numCachedClients, numClients));
             }
 
-            log.info("*** Schwab Demo Client Feeder: End client feed.");
+            log.info("*** SDemo Client Feeder: End client feed.");
         } catch (Exception ex) {
             log.error("Exception: " + ex.getMessage(), ex);
         }

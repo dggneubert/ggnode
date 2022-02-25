@@ -50,11 +50,11 @@ public class ClientAndAccountsFeeder {
         return clientNum * maxAccountsPerClient + accountNum + r.nextInt(range);
     }
 
-    public static void  loadSchwabDemoAccounts(int numClients, int numAccountsPerClient) {
+    public static void  loadSDemoAccounts(int numClients, int numAccountsPerClient) {
 
         String accountName; int accountId, accountType; long accountBalance;
 
-        log.info(String.format("*** Schwab Demo Feeder: Begin feed (%d clients at %d accounts per client).", numClients, numAccountsPerClient));
+        log.info(String.format("*** SDemo Feeder: Begin feed (%d clients at %d accounts per client).", numClients, numAccountsPerClient));
 
         try (ClientDao clientDao = new ClientDao(); AccountDao accountDao = new AccountDao()) {
 
@@ -86,12 +86,12 @@ public class ClientAndAccountsFeeder {
                 // accountDao.saveAll(clientAccounts);
 
                 if (clientNum % 10 == 0) {
-                    log.info(String.format("*** Schwab Demo Feeder: Added %d clients (at %d accounts per client).", clientNum, numAccountsPerClient));
+                    log.info(String.format("*** SDemo Feeder: Added %d clients (at %d accounts per client).", clientNum, numAccountsPerClient));
                 }
             }
 
-            log.info(String.format("*** Schwab Demo Feeder: Added a total of %d clients (at %d accounts per client).", numClients, numAccountsPerClient));
-            log.info("*** Schwab Demo Feeder: End feed.");
+            log.info(String.format("*** SDemo Feeder: Added a total of %d clients (at %d accounts per client).", numClients, numAccountsPerClient));
+            log.info("*** SDemo Feeder: End feed.");
         } catch (Exception ex) {
             log.error("Exception: " + ex.getMessage(), ex);
         }

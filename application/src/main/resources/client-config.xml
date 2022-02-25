@@ -43,13 +43,29 @@
             </list>
         </property>
 
-        <property name="discoverySpi">
+        <!--<property name="discoverySpi">
             <bean class="org.apache.ignite.spi.discovery.tcp.TcpDiscoverySpi">
                 <property name="ipFinder">
                     <bean class="org.apache.ignite.spi.discovery.tcp.ipfinder.vm.TcpDiscoveryVmIpFinder">
                         <property name="addresses">
                             <list>
                                 <value>127.0.0.1:47500..47505</value>
+                            </list>
+                        </property>
+                    </bean>
+                </property>
+            </bean>
+        </property>-->
+
+        <property name="discoverySpi">
+            <bean class="org.apache.ignite.spi.discovery.tcp.TcpDiscoverySpi">
+                <!-- Changing initial local port number for nodes from this data center. -->
+                <property name="ipFinder">
+                    <bean class="org.apache.ignite.spi.discovery.tcp.ipfinder.vm.TcpDiscoveryVmIpFinder">
+                        <property name="addresses">
+                            <list>
+                                <!-- IP address and port ranges of nodes from this data center. -->
+                                <value>5558dc15-f0a7-4593-a1fa-65e0a7dcf853.gridgain-nebula.com:47500</value>
                             </list>
                         </property>
                     </bean>

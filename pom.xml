@@ -22,7 +22,7 @@
     </repositories>
 
     <properties>
-        <gridgain.version>8.8.10</gridgain.version>
+        <gridgain.version>8.8.14</gridgain.version>
         <junit.version>4.12</junit.version>
     </properties>
 

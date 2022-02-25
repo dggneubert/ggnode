@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="ignite.cfg" class="org.apache.ignite.configuration.IgniteConfiguration">
+        <property name="peerClassLoadingEnabled" value="true"/>
+        <property name="binaryConfiguration">
+            <bean class="org.apache.ignite.configuration.BinaryConfiguration">
+            </bean>
+        </property>
+
+        <property name="cacheConfiguration">
+            <list>
+                <bean class="org.apache.ignite.configuration.CacheConfiguration">
+                    <property name="name" value="CLIENT_CACHE"/>
+                    <property name="cacheMode" value="PARTITIONED"/>
+                    <property name="atomicityMode" value="ATOMIC"/>
+                    <property name="writeSynchronizationMode" value="PRIMARY_SYNC"/>
+                    <property name="backups" value="0"/>
+                    <property name="indexedTypes">
+                        <list>
+                            <value>org.apache.ignite.cache.affinity.AffinityKey</value>
+                            <value>com.gridgain.ignite.ggnode.model.entities.Client</value>
+                        </list>
+                    </property>
+                </bean>
+                <bean class="org.apache.ignite.configuration.CacheConfiguration">
+                    <property name="name" value="ACCOUNT_CACHE"/>
+                    <property name="cacheMode" value="PARTITIONED"/>
+                    <property name="atomicityMode" value="ATOMIC"/>
+                    <property name="writeSynchronizationMode" value="PRIMARY_SYNC"/>
+                    <property name="backups" value="0"/>
+                    <property name="indexedTypes">
+                        <list>
+                            <value>org.apache.ignite.cache.affinity.AffinityKey</value>
+                            <value>com.gridgain.ignite.ggnode.model.entities.Account</value>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+
+        <!--<property name="discoverySpi">
+            <bean class="org.apache.ignite.spi.discovery.tcp.TcpDiscoverySpi">
+                <property name="ipFinder">
+                    <bean class="org.apache.ignite.spi.discovery.tcp.ipfinder.vm.TcpDiscoveryVmIpFinder">
+                        <property name="addresses">
+                            <list>
+                                <value>127.0.0.1:47500..47505</value>
+                            </list>
+                        </property>
+                    </bean>
+                </property>
+            </bean>
+        </property>-->
+
+        <property name="discoverySpi">
+            <bean class="org.apache.ignite.spi.discovery.tcp.TcpDiscoverySpi">
+                <!-- Changing initial local port number for nodes from this data center. -->
+                <property name="ipFinder">
+                    <bean class="org.apache.ignite.spi.discovery.tcp.ipfinder.vm.TcpDiscoveryVmIpFinder">
+                        <property name="addresses">
+                            <list>
+                                <!-- IP address and port ranges of nodes from this data center. -->
+                                <value>5558dc15-f0a7-4593-a1fa-65e0a7dcf853.gridgain-nebula.com:47500</value>
+                            </list>
+                        </property>
+                    </bean>
+                </property>
+            </bean>
+        </property>
+
+        <!--
+       <property name="discoverySpi">
+           <bean class="org.apache.ignite.spi.discovery.tcp.TcpDiscoverySpi">
+               <property name="ipFinder">
+                   <bean class="org.apache.ignite.spi.discovery.tcp.ipfinder.multicast.TcpDiscoveryMulticastIpFinder">
+                       <property name="multicastGroup" value="192.168.68.100"/>
+                       <property name="addresses">
+                           <list>
+                               <value>127.0.0.1:47500..47505</value>
+                           </list>
+                       </property>
+                   </bean>
+               </property>
+           </bean>
+       </property>
+       -->
+
+    </bean>
+</beans>

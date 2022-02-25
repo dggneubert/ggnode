@@ -1,0 +1,3 @@
+is_global = true
+build_property.RootNamespace = Apache.Ignite.Examples.Shared
+build_property.ProjectDir = C:\clients\Schwab\demo\examples\Shared\
