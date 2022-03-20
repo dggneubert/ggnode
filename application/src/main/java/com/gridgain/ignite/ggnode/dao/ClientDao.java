@@ -25,9 +25,9 @@ public class ClientDao implements AutoCloseable{
         this.clientCache = igClient.cache(CLIENT_CACHE_NAME);
     }
 
-    public void save(Client client) {
+    public void save(int clientId, Client client) {
 
-        clientCache.put(client.getId( ), client);
+        clientCache.put(clientId, client);
     }
 
     public void saveAll(Map<Integer,Client> clients) {

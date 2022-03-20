@@ -43,7 +43,7 @@ public class UpdateClientStatusTask implements IgniteCallable<Boolean> {
             sql.setLocal(true);
 
             client = clientCache.get(clientId);
-            System.out.println(String.format("UpdateClientStatusTask -> Checking aggregate balance for client (id=%d)", client.getId()));
+            System.out.println(String.format("UpdateClientStatusTask -> Checking aggregate balance for client (id=%d)", clientId));
 
             // Execute the query and obtain the query result cursor.
             try (QueryCursor<List<?>> cursor = accountCache.query(sql)) {

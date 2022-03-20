@@ -1,6 +1,7 @@
 package com.gridgain.ignite.ggnode.dao;
 
 import com.gridgain.ignite.ggnode.model.entities.Account;
+import com.gridgain.ignite.ggnode.model.entities.AccountKey;
 import org.apache.ignite.Ignite;
 import org.apache.ignite.IgniteAtomicSequence;
 import org.apache.ignite.IgniteCache;
@@ -17,7 +18,7 @@ public class AccountDao implements AutoCloseable {
 
     private static final String ACCOUNT_CACHE_NAME = "ACCOUNT_CACHE";
 
-    private final IgniteCache<AffinityKey<Integer>, Account> accountCache;
+    private final IgniteCache<AccountKey, Account> accountCache;
     private final IgniteAtomicSequence accountSequence;
 
     public AccountDao(){
@@ -26,16 +27,15 @@ public class AccountDao implements AutoCloseable {
         this.accountSequence = igClient.atomicSequence("AccountSequence", 1 ,true);
     }
 
-    public void save(Account account) {
-        AffinityKey<Integer> accountKey = new AffinityKey<>(account.getId(), account.getClientId());
+    public void save(AccountKey accountKey, Account account) {
         accountCache.put(accountKey, account);
     }
 
-    public void saveAll(Map<AffinityKey<Integer>, Account> accounts) {
+    public void saveAll(Map<AccountKey, Account> accounts) {
         accountCache.putAll(accounts);
     }
 
-    public Account get(AffinityKey<Integer> accountKey) {
+    public Account get(AccountKey accountKey) {
         return accountCache.get(accountKey);
     }
 

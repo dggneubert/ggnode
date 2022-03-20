@@ -31,8 +31,8 @@ public class ClientFeeder {
 
             TreeMap<Integer, Client> clients = new TreeMap<>();
             for (int i=1; i <= numClients; i++) {
-                Client client = new Client(i, String.format("C%07d", i), Client.Status[r.nextInt(4)]);
-                clients.put(client.getId(), client);
+                Client client = new Client(String.format("C%07d", i), Client.STATUS[r.nextInt(4)]);
+                clients.put(i, client);
 
                 if (i % 100000 == 0) {
                     log.info(String.format("*** SDemo Client Feeder: Generated %d Client records.", i));
@@ -65,8 +65,8 @@ public class ClientFeeder {
             int clientIdCounter = 1;
 
             for (String key : namedClientList) {
-                Client client = new Client(clientIdCounter, key, Client.Status[r.nextInt(4)]);
-                clients.put(client.getId(), client);
+                Client client = new Client(key, Client.STATUS[r.nextInt(4)]);
+                clients.put(clientIdCounter, client);
                 clientIdCounter++;
             }
 

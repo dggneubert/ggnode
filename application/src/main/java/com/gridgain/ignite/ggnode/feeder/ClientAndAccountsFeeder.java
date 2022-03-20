@@ -3,6 +3,7 @@ package com.gridgain.ignite.ggnode.feeder;
 import com.gridgain.ignite.ggnode.dao.AccountDao;
 import com.gridgain.ignite.ggnode.dao.ClientDao;
 import com.gridgain.ignite.ggnode.model.entities.Account;
+import com.gridgain.ignite.ggnode.model.entities.AccountKey;
 import com.gridgain.ignite.ggnode.model.entities.Client;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -52,7 +53,7 @@ public class ClientAndAccountsFeeder {
 
     public static void  loadSDemoAccounts(int numClients, int numAccountsPerClient) {
 
-        String accountName; int accountId, accountType; long accountBalance;
+        String accountName; long accountId; int accountType; long accountBalance;
 
         log.info(String.format("*** SDemo Feeder: Begin feed (%d clients at %d accounts per client).", numClients, numAccountsPerClient));
 
@@ -61,8 +62,8 @@ public class ClientAndAccountsFeeder {
             int numCachedAccounts = 0;
             for (int clientNum = 1; clientNum <= numClients; clientNum++) {
 
-                Client client = new Client(clientNum, genClientNameFor(clientNum));
-                clientDao.save(client);
+                Client client = new Client(genClientNameFor(clientNum));
+                clientDao.save(clientNum, client);
 
                 // TreeMap<AffinityKey<Integer>, Account> clientAccounts = new TreeMap<>();
 
@@ -76,8 +77,9 @@ public class ClientAndAccountsFeeder {
                     accountBalance = genAccountBalanceFor(clientNum, accountNum, r);
                     // accountBalance = genRandomAccountBalanceUsing(clientNum, accountNum, r, numAccountsPerClient);
 
-                    Account account = new Account(accountId, clientNum, accountName, accountType, accountBalance);
-                    accountDao.save(account);
+                    AccountKey accountKey = new AccountKey(accountId, (long)clientNum);
+                    Account account = new Account(accountName, accountType, accountBalance, "New");
+                    accountDao.save(accountKey, account);
 
                     // clientAccounts.put(new AffinityKey<Integer>(account.getId(), account.getClientId()), account);
                 }
@@ -127,8 +129,9 @@ public class ClientAndAccountsFeeder {
                     int type =  minAccountType + r.nextInt(numAccountTypes);
                     Long balance = Long.valueOf(minBalance + r.nextInt(maxBalanceDelta));
 
-                    Account account = new Account(accountId, clientId, name, type, balance);
-                    accountDao.save(account);
+                    AccountKey accountKey = new AccountKey((long)accountId, (long)clientId);
+                    Account account = new Account(name, type, balance, "New");
+                    accountDao.save(accountKey, account);
 
                     log.info("*** " + account);
                     accountId++;
