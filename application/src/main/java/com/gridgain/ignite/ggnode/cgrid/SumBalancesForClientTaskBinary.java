@@ -22,7 +22,7 @@ public class SumBalancesForClientTaskBinary implements IgniteCallable<BigDecimal
     private static final Log log = LogFactory.getLog(SumBalancesForClientTaskBinary.class);
 
     @IgniteInstanceResource
-    Ignite ignite;
+    Ignite _ignite;
     int clientId;
 
     public SumBalancesForClientTaskBinary(int clientId) {
@@ -41,8 +41,10 @@ public class SumBalancesForClientTaskBinary implements IgniteCallable<BigDecimal
 
         long sum = 0L;
         boolean isSumValid = false;
-        try {
-            IgniteCache<Integer, Account> accountCache = ignite.cache("ACCOUNT_CACHE");
+        var accountCfg = Account.getCacheConfiguration();
+
+        try (var accountCache = _ignite.getOrCreateCache(accountCfg))
+        {
             IgniteCache<BinaryObject, BinaryObject> accountCacheKB = accountCache.withKeepBinary();
 
             QueryCursor<List<?>> accounts = accountCacheKB.query(qry);
@@ -53,8 +55,6 @@ public class SumBalancesForClientTaskBinary implements IgniteCallable<BigDecimal
             }
 
             // accountCacheKB.close();  TODO should KeepBinary copy be closed?
-            accountCache.close();
-
         } catch (Exception ex) {
             ex.printStackTrace();
             isSumValid = false;

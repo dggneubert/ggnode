@@ -25,13 +25,11 @@ public class ClientFeeder {
 
         log.info(String.format("*** SDemo Client Feeder: Begin client feed  got %d clients.", numClients));
 
-        Random r = new Random();    // For generating random client account status (0..3)
-
         try(ClientDao clientDao = new ClientDao() ) {
 
             TreeMap<Integer, Client> clients = new TreeMap<>();
             for (int i=1; i <= numClients; i++) {
-                Client client = new Client(String.format("C%07d", i), Client.STATUS[r.nextInt(4)]);
+                Client client = new Client(String.format("C%07d", i));
                 clients.put(i, client);
 
                 if (i % 100000 == 0) {
@@ -61,11 +59,10 @@ public class ClientFeeder {
             log.info("*** Start Client Feeder");
             TreeMap<Integer, Client> clients = new TreeMap<>();
 
-            Random r = new Random();
             int clientIdCounter = 1;
 
             for (String key : namedClientList) {
-                Client client = new Client(key, Client.STATUS[r.nextInt(4)]);
+                Client client = new Client(key);
                 clients.put(clientIdCounter, client);
                 clientIdCounter++;
             }

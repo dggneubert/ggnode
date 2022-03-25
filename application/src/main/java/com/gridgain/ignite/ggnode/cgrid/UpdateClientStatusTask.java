@@ -29,6 +29,7 @@ public class UpdateClientStatusTask implements IgniteCallable<Boolean> {
         System.out.println("UpdateClientStatusTask -> Run ");
 
         Client client;
+        Integer level = 0;
         long balance = 0;
         boolean updated = false;
 
@@ -49,28 +50,27 @@ public class UpdateClientStatusTask implements IgniteCallable<Boolean> {
             try (QueryCursor<List<?>> cursor = accountCache.query(sql)) {
                 for (List<?> row : cursor) {
                     balance = ((BigDecimal)row.get(0)).longValue();
-                    String status="Standard";
                     if (balance < 0)
-                        status = "In Default";
+                        level = 0;  // was "In Default";
                     else if (balance >= 0 && balance  < 1000)
-                        status = "Critical";
+                        level = 0; // was "Critical";
                     else if (balance >= 1000 && balance < 10000)
-                        status="Bronze";
+                        level = 0; // was "Bronze";
                     else if (balance >= 10000 && balance < 500000 )
-                        status="Silver";
+                        level = 1; // was "Silver";
                     else if (balance >= 500000 && balance < 1000000 )
-                        status="Gold";
+                        level = 2; // was "Gold";
                     else if (balance >= 10000000)
-                        status="Platinum";
+                        level = 3; // was "Platinum";
 
                     // Update Client status
-                    if (!status.equals(client.getStatus())) {
-                        SqlFieldsQuery query = new SqlFieldsQuery("UPDATE Client set status = ? WHERE id = ?");
+                    if (level != client.getLevel()) {
+                        SqlFieldsQuery query = new SqlFieldsQuery("UPDATE Client set LEVEL = ? WHERE id = ?");
                         query.setLocal(true);
-                        query.setArgs(status, clientId);
+                        query.setArgs(level, clientId);
                         clientCache.query(query);
                         updated=true;
-                        System.out.println(String.format("UpdateClientStatusTask -> Client (id=%d) status was updated to %s.",clientId, status));
+                        System.out.println(String.format("UpdateClientStatusTask -> Client (id=%d) status was updated to %s.",clientId, level));
                     }
                 }
             }

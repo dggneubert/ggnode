@@ -6,30 +6,20 @@ import org.apache.ignite.cache.query.annotations.QuerySqlField;
 public class AccountKey
 {
     @QuerySqlField
-    public Long id;
+    private Long id;
 
     @QuerySqlField
     @AffinityKeyMapped
-    public Long clientId;
+    private Long clientId;
 
     public AccountKey(Long id, Long clientId) {
         this.id = id;
         this.clientId = clientId;
     }
 
-    public Long getId() {
-        return id;
-    }
+    public Long getId() { return id;}
+    public void setId(Long id) { this.id = id; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getClientId() {
-        return clientId;
-    }
-
-    public void setClientId(Long clientId) {
-        this.clientId = clientId;
-    }
+    public Long getClientId() { return clientId; }
+    public void setClientId(Long clientId) { this.clientId = clientId; }
 }

@@ -7,25 +7,19 @@ import org.apache.ignite.cache.affinity.AffinityKeyMapped;
 import org.apache.ignite.cache.query.annotations.QuerySqlField;
 import org.apache.ignite.configuration.CacheConfiguration;
 
+import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * Created By GridGain Systems
- *
- * Class contains PurchaseOrder details that will be kept in the grid as an embedded class.
- */
-
-
-public class Account {
+public class Account implements Serializable {
 
     public static final String SQL_SCHEMA = "SDEMO";
     public static final String CACHE_NAME = "ACCOUNT_CACHE";
 
     @QuerySqlField private String name;
     @QuerySqlField private Integer type;
-    @QuerySqlField private Long balance;
-    @QuerySqlField private String status;
+    @QuerySqlField private BigDecimal balance;
 
     public static CacheConfiguration<AccountKey, Account> getCacheConfiguration()
     {
@@ -46,21 +40,18 @@ public class Account {
     public Account(String name) {
         this.name = name;
         this.type = 0;
-        this.balance = 0L;
-        this.status = "NEW";
+        this.balance = new BigDecimal("0.00");
     }
 
-    public Account(String name, int type, long balance, String status) {
+    public Account(String name, int type, BigDecimal balance) {
         this.name = name;
         this.type = type;
         this.balance = balance;
-        this.status = status;
     }
 
     public String getName() {
         return name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
@@ -68,29 +59,19 @@ public class Account {
     public Integer getType() {
         return type;
     }
-
-    public void setType(Integer type) {
+    void setType(Integer type) {
         this.type = type;
     }
 
-    public Long getBalance() {
+    public BigDecimal getBalance() {
         return balance;
     }
-
-    public void setBalance(Long balance) {
+    public void setBalance(BigDecimal balance) {
         this.balance = balance;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 
     @Override
     public String toString() {
-        return String.format("Account [Name = %s, Type = %d, Balance = %d, Status = %s]", name, type, balance, status);
+        return String.format("Account[Name=%s, Type=%d, Balance=%,.2f]", name, type, balance);
     }
 }

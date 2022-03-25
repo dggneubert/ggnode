@@ -8,6 +8,7 @@ import com.gridgain.ignite.ggnode.model.entities.Client;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 import static java.lang.Integer.parseInt;
@@ -78,7 +79,7 @@ public class ClientAndAccountsFeeder {
                     // accountBalance = genRandomAccountBalanceUsing(clientNum, accountNum, r, numAccountsPerClient);
 
                     AccountKey accountKey = new AccountKey(accountId, (long)clientNum);
-                    Account account = new Account(accountName, accountType, accountBalance, "New");
+                    Account account = new Account(accountName, accountType, new BigDecimal(accountBalance));
                     accountDao.save(accountKey, account);
 
                     // clientAccounts.put(new AffinityKey<Integer>(account.getId(), account.getClientId()), account);
@@ -130,7 +131,7 @@ public class ClientAndAccountsFeeder {
                     Long balance = Long.valueOf(minBalance + r.nextInt(maxBalanceDelta));
 
                     AccountKey accountKey = new AccountKey((long)accountId, (long)clientId);
-                    Account account = new Account(name, type, balance, "New");
+                    Account account = new Account(name, type, new BigDecimal(balance));
                     accountDao.save(accountKey, account);
 
                     log.info("*** " + account);

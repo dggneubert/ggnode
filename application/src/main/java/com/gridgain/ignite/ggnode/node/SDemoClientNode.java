@@ -26,11 +26,11 @@ public class SDemoClientNode {
     // static final String CFG_PATH = Paths.get(System.getenv("SCHWAB_DEMO_GG_CONFIG"), "server-config.xml").toString();
 
     // SDemoClientNode default values
-    static final int DEFAULT_NUM_CLIENTS = 1_000_000;
+    static final int DEFAULT_NUM_CLIENTS = 100_000;
     static final int DEFAULT_NUM_ACCOUNTS_PER_CLIENT = 10; // 10_000;
     static final int DEFAULT_CLIENT_ID = 1;
     static final BigDecimal DEFAULT_AGGR_BALANCE_LIMIT = new BigDecimal(100000);
-    static final int DEFAULT_NUM_PROCESSORS_PER_DATA_NODE = 3; // 8;
+    static final int DEFAULT_NUM_PROCESSORS_PER_DATA_NODE = 4; // 8;
 
     public static void main(String[] args) throws NumberFormatException {
 
@@ -86,7 +86,7 @@ public class SDemoClientNode {
             log.info(String.format("*** Begin ACCOUNT generation using cache %s: %s", accountCache.getName(), LocalDateTime.now().format(timeFormatter)));
             compute.run(GenerateAccountsTask.BuildTaskBatches(numClients, accountCache.getName(), numAccountsPerClient, batchCount, batchSize));
             log.info(String.format("*** Begin ACCOUNT testing using cache %s: %s", accountCache.getName(), LocalDateTime.now().format(timeFormatter)));
-            GenerateAccountsTask.TestUsing(accountCache, 1000);
+            GenerateAccountsTask.TestUsing(accountCache, 10000);
             log.info(String.format("*** End ACCOUNT generation/test: %s", LocalDateTime.now().format(timeFormatter)));
 
             // Emd SDemoClient

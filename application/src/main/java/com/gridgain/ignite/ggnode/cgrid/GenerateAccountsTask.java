@@ -12,6 +12,7 @@ import org.apache.ignite.compute.ComputeTaskNoResultCache;
 import org.apache.ignite.lang.IgniteRunnable;
 import org.apache.ignite.resources.IgniteInstanceResource;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -62,7 +63,7 @@ public class GenerateAccountsTask implements IgniteRunnable
         {
             qryCursor.forEach(entry -> { long n = ++i[0];
                 if (n == 1 || n % modulus == 0 || n == numAccounts)
-                    System.out.println(n + ": Account = " + entry.getKey().getId() + ", Client = " + entry.getKey().getClientId() + ", Value = " + entry.getValue());
+                    System.out.println(n + ": KEY = AccountKey[id=" + entry.getKey().getId() + ", clientId=" + entry.getKey().getClientId() + "], Value = " + entry.getValue());
             });
         }
     }
@@ -86,10 +87,10 @@ public class GenerateAccountsTask implements IgniteRunnable
                 for (long accountNum = 0; accountNum < _numAccountsPerClient; accountNum++) {
                     var accountId = clientId * _numAccountsPerClient + accountNum;
                     var accountName = String.format("C%d.A%d", clientId, accountNum);
-                    var accountBal = (long) random.nextInt(50000);
+                    var accountBal = new BigDecimal(random.nextInt(50000));
 
                     var accountKey = new AccountKey(accountId, clientId);
-                    var account = new Account(accountName, 0, accountBal, "New");
+                    var account = new Account(accountName, 0, accountBal);
 
                     streamer.addData(accountKey, account);
                 }
