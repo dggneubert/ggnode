@@ -19,6 +19,11 @@
     <remote-repository>
       <option name="id" value="project-local" />
       <option name="name" value="project-local" />
+      <option name="url" value="file://$PROJECT_DIR$/../libs/repository" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="project-local" />
+      <option name="name" value="project-local" />
       <option name="url" value="file://C:\clients\Schwab\demo\application/../../../libs/repository" />
     </remote-repository>
     <remote-repository>
@@ -52,6 +57,11 @@
       <option name="url" value="file://C:\clients\Schwab\demo\ggnode\model/../libs/repository" />
     </remote-repository>
     <remote-repository>
+      <option name="id" value="project-local" />
+      <option name="name" value="project-local" />
+      <option name="url" value="file://$PROJECT_DIR$/model/../libs/repository" />
+    </remote-repository>
+    <remote-repository>
       <option name="id" value="jboss.community" />
       <option name="name" value="JBoss Community repository" />
       <option name="url" value="https://repository.jboss.org/nexus/content/repositories/public/" />
@@ -60,6 +70,11 @@
       <option name="id" value="project-local" />
       <option name="name" value="project-local" />
       <option name="url" value="file://C:\clients\Schwab\demo\model/../libs/repository" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="project-local" />
+      <option name="name" value="project-local" />
+      <option name="url" value="file://$PROJECT_DIR$/application/../libs/repository" />
     </remote-repository>
     <remote-repository>
       <option name="id" value="project-local" />

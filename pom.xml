@@ -12,12 +12,8 @@
 
     <repositories>
         <repository>
-            <id>project-local</id>
-            <url>file://${basedir}/../libs/repository</url>
-        </repository>
-        <repository>
             <id>GridGain External Repository</id>
-            <url>http://www.gridgainsystems.com/nexus/content/repositories/external</url>
+            <url>https://www.gridgainsystems.com/nexus/content/repositories/external</url>
         </repository>
     </repositories>
 
@@ -25,6 +21,19 @@
         <gridgain.version>8.8.14</gridgain.version>
         <junit.version>4.12</junit.version>
     </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.gridgain</groupId>
+            <artifactId>ignite-core</artifactId>
+            <version>${gridgain.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.gridgain</groupId>
+            <artifactId>gridgain-core</artifactId>
+            <version>${gridgain.version}</version>
+        </dependency>
+    </dependencies>
 
     <modules>
         <module>application</module>
