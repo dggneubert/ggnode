@@ -19,17 +19,17 @@
     <remote-repository>
       <option name="id" value="project-local" />
       <option name="name" value="project-local" />
-      <option name="url" value="file://$PROJECT_DIR$/../libs/repository" />
-    </remote-repository>
-    <remote-repository>
-      <option name="id" value="project-local" />
-      <option name="name" value="project-local" />
       <option name="url" value="file://C:\clients\Schwab\demo\application/../../../libs/repository" />
     </remote-repository>
     <remote-repository>
       <option name="id" value="central" />
       <option name="name" value="Maven Central repository" />
       <option name="url" value="https://repo1.maven.org/maven2" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="GridGain External Repository" />
+      <option name="name" value="GridGain External Repository" />
+      <option name="url" value="https://www.gridgainsystems.com/nexus/content/repositories/external" />
     </remote-repository>
     <remote-repository>
       <option name="id" value="project-local" />
@@ -50,6 +50,11 @@
       <option name="id" value="project-local" />
       <option name="name" value="project-local" />
       <option name="url" value="file://C:\clients\Schwab\demo\application/../libs/repository" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="project-local" />
+      <option name="name" value="project-local" />
+      <option name="url" value="file://$PROJECT_DIR$/../libs/repository" />
     </remote-repository>
     <remote-repository>
       <option name="id" value="project-local" />

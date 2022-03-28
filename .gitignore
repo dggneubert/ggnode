@@ -3,3 +3,4 @@ target/
 ignite/work/
 
 *.iml
+.DS_Store
