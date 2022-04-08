@@ -1,7 +1,6 @@
 package com.gridgain.ignite.ggnode.cgrid;
 
 import com.gridgain.ignite.ggnode.model.entities.Account;
-import com.gridgain.ignite.ggnode.model.entities.AccountKey;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
@@ -21,11 +20,11 @@ import org.apache.ignite.resources.IgniteInstanceResource;
 import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.toMap;
 
-public class SumBalancesForAllClientsTask extends ComputeTaskAdapter<Void, Map<Long, BigDecimal>> {
+public class SumBalancesForAllClientsTask extends ComputeTaskAdapter<BigDecimal, Map<Long, BigDecimal>> {
 
-    @Override public Map<? extends ComputeJob, ClusterNode> map(List<ClusterNode> subgrid, Void arg) {
+    @Override public Map<? extends ComputeJob, ClusterNode> map(List<ClusterNode> subgrid, BigDecimal threshold) {
         return subgrid.stream()
-            .collect(toMap(node -> new SumBalancesForAllClientsJob(), identity()));
+            .collect(toMap(node -> new SumBalancesForAllClientsJob(threshold), identity()));
     }
 
     @Override public Map<Long, BigDecimal> reduce(List<ComputeJobResult> results) throws IgniteException {
@@ -42,6 +41,12 @@ public class SumBalancesForAllClientsTask extends ComputeTaskAdapter<Void, Map<L
 
         @IgniteInstanceResource
         private Ignite ignite;
+
+        private final BigDecimal threshold;
+
+        public SumBalancesForAllClientsJob(BigDecimal threshold) {
+            this.threshold = threshold;
+        }
 
         @Override public Object execute() throws IgniteException {
             IgniteCache<BinaryObject, BinaryObject> cache = ignite.cache(Account.CACHE_NAME).withKeepBinary();
@@ -60,7 +65,10 @@ public class SumBalancesForAllClientsTask extends ComputeTaskAdapter<Void, Map<L
                     }
                 );
             }
-            return res;
+
+            return res.entrySet().stream()
+                .filter(e -> e.getValue().compareTo(threshold) > 0)
+                .collect(toMap(Map.Entry::getKey, Map.Entry::getValue));
         }
     }
 }
