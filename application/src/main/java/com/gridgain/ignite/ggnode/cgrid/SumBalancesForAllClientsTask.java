@@ -21,11 +21,14 @@ import org.apache.ignite.resources.IgniteInstanceResource;
 import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.toMap;
 
-public class SumBalancesForAllClientsTask extends ComputeTaskAdapter<Void, Map<Long, BigDecimal>> {
+/**
+ * Finds all clients with their aggregate balances less than argument value.
+ */
+public class SumBalancesForAllClientsTask extends ComputeTaskAdapter<BigDecimal, Map<Long, BigDecimal>> {
 
-    @Override public Map<? extends ComputeJob, ClusterNode> map(List<ClusterNode> subgrid, Void arg) {
+    @Override public Map<? extends ComputeJob, ClusterNode> map(List<ClusterNode> subgrid, BigDecimal arg) {
         return subgrid.stream()
-            .collect(toMap(node -> new SumBalancesForAllClientsJob(), identity()));
+            .collect(toMap(node -> new SumBalancesForAllClientsJob(arg), identity()));
     }
 
     @Override public Map<Long, BigDecimal> reduce(List<ComputeJobResult> results) throws IgniteException {
@@ -42,6 +45,12 @@ public class SumBalancesForAllClientsTask extends ComputeTaskAdapter<Void, Map<L
 
         @IgniteInstanceResource
         private Ignite ignite;
+
+        private BigDecimal threshold;
+
+        public SumBalancesForAllClientsJob(BigDecimal threshold) {
+            this.threshold = threshold;
+        }
 
         @Override public Object execute() throws IgniteException {
             IgniteCache<BinaryObject, BinaryObject> cache = ignite.cache(Account.CACHE_NAME).withKeepBinary();
@@ -60,6 +69,13 @@ public class SumBalancesForAllClientsTask extends ComputeTaskAdapter<Void, Map<L
                     }
                 );
             }
+
+            if (threshold != null) {
+                res = res.entrySet().stream()
+                    .filter(entry -> threshold.compareTo(entry.getValue()) > 0)
+                    .collect(toMap(Map.Entry::getKey, Map.Entry::getValue));
+            }
+
             return res;
         }
     }
