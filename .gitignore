@@ -4,3 +4,5 @@ ignite/work/
 
 *.iml
 .DS_Store
+application.iml
+ignite/
